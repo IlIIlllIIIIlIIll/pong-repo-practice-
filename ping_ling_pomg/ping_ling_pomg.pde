@@ -4,8 +4,6 @@
 //- scoreboard
 
 //Gloabl Variables
-float x, y, diameter;
-color colour;
 //
 void setup () {
   fullScreen();  
@@ -13,7 +11,8 @@ void setup () {
   uptarde automatically for screen rotation on android
   */
   //
-  ellipse(x, y, diameter, diameter); // ball
+  Ball myBall= new Ball ();
+ // ellipse(x, y, diameter, diameter); // ball
 } //End su
 //
 void draw () {
