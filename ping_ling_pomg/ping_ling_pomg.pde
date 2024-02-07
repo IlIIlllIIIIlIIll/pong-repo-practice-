@@ -11,8 +11,10 @@ void setup () {
   uptarde automatically for screen rotation on android
   */
   //
-  Ball myBall= new Ball ();
+  Ball myBall= new Ball (); //myBall = instance of Ball
  // ellipse(x, y, diameter, diameter); // ball
+ println("Exciting . . . not Exciting");
+ exit(); //mimics garbage collection on all LV
 } //End su
 //
 void draw () {
