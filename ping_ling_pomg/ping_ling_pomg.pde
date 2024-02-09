@@ -1,28 +1,26 @@
-//wdto do
-//- music
-//- easter eggs
-//- scoreboard
-
-//Gloabl Variables
+//Global Variables
 //
-void setup () {
-  fullScreen();  
-  /* ScreenSizeChecker() for landscape, portrait, square views
-  uptarde automatically for screen rotation on android
-  */
-  //
-  Ball myBall= new Ball (); //myBall = instance of Ball
- // ellipse(x, y, diameter, diameter); // ball
- println("Exciting . . . not Exciting");
- exit(); //mimics garbage collection on all LV
-} //End su
+void setup() {
+  size(600, 400); //fullScreen(); displayWidth, displayHeight
+  /*ScreenSizeChecker() for Lnadscape, Protrait, Square views
+   Updated Automatically for screen rotation on Android
+   */
+  // An Object Is ... See the CLASS
+  Ball myBall = new Ball(); // myBall = instance of Ball
+  //ellipse(x, y, diameter, diameter); //ball
+  println("Exciting  ... not Exciting");
+  exit(); //Mimics garbage collection of all local variables
+} //End setup
+//Garbage Collection happens here
 //
-void draw () {
-} //End dr
+void draw() {
+  //EMPTY Loop
+} //End draw
 //
-void keyPressed () {
-} //End kp
+void keyPressed() {
+} //End keyPressed
 //
-void mousePressed () {
-} //End mp
+void mousePressed() {
+} //End mousePressed
 //
+//End DRIVER
