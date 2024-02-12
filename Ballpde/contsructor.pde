@@ -1,23 +1,23 @@
-//Global Variables
+//Global Variables and Objects
+Ball myBall; // Both 1/2's of Constructor
+//Ball yourBall
+//
+color pongTableColour = 0; //ERROR: move to Table CLASS, 255 is full BLUE
 //
 void setup() {
-  size(600, 400); //fullScreen(); displayWidth, displayHeight
+  fullScreen(); //fullScreen(); displayWidth, displayHeight
   /*ScreenSizeChecker() for Lnadscape, Protrait, Square views
    Updated Automatically for screen rotation on Android
    */
-  Ball ball = new Ball(); // Line = both 1/2's of Constructor
-  // local variables to create other variables
-
-  //What if?
-  //Ball yourBall = new Ball();
-  //yourBall.x =
+  //Population
+  myBall = new Ball(); // Both 1/2's of Constructor
+  // yourBall = new Ball();
   //
 } //End setup
 //
 void draw() {
-  ball.draw();
-
-  //EMPTY Loop
+  background(pongTableColour); //ERROR: Night Mode is know in CLASS, not DRIVER
+  myBall.draw();
 } //End draw
 //
 void keyPressed() {
