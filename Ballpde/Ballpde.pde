@@ -7,8 +7,9 @@ class Ball
   float x, y, diameter;
   color colour;
   float xSpeed, ySpeed, xSpeedChange, ySpeedChange;
+  // static int count = 69; //static number for amount of ball instances in firework
   //
-  //Constructor
+  //Ball Constructor
   Ball () {
     //Constructor Is ... hard coded, single variable object
     //Local Variables, deleted at end of Constructor
@@ -28,17 +29,33 @@ class Ball
     ySpeedChange = 1; //Change speeds
   } //End Constructor
   //
+
+  class Firework
+  {
+    Firework () {
+      //Ball();
+      x = mouseX; //ERROR trigger whe enters goal area
+      y = mouseY; //ERROR trigger whe enters goal area
+      colour = color ( random(255), random(255), random(255) ) ; //random(), random()-shortcut, casting from float to intin color var
+      diameter = random(width*1/25);
+      xSpeed = random(-5, 5);
+      ySpeed = random(-5, 5);
+      gravity = 0.5 ; //
+    }
+  }//end fw
+
+  //
   float xDirection() {
-    float xDirection = int (random (-2, 2) ); //float, truncated, must be 2 minimum
+    float xDirection = int (random (-4, 4) ); //float, truncated, must be 2 minimum
     while ( xDirection == 0 ) {
-      xDirection = int (random (-2, 2) ); //variable must be populated first
+      xDirection = int (random (-4, 4) ); //variable must be populated first
     }
     return xDirection;
   } //End xDirection
   float yDirection() {
-    float yDirection = int (random (-2, 2) ); //float, truncated, must be 2 minimum
+    float yDirection = int (random (-4, 4) ); //float, truncated, must be 2 minimum
     while ( yDirection == 0 ) {
-      yDirection = int (random (-2, 2) ); //variable must be populated first
+      yDirection = int (random (-4, 4) ); //variable must be populated first
     }
     return yDirection;
   } //End yDirection
