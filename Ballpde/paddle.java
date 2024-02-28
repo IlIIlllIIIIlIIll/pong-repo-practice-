@@ -1,5 +1,4 @@
-class Ball
-{
+class Paddle {
   //Pure Java Class
   //Primitive Vars Only
   //
@@ -11,4 +10,4 @@ class Ball
   //
   //VOIDs and Calculators
   //
-} //End Ball.java
+} //End Paddle
