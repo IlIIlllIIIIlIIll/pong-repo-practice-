@@ -1,7 +1,7 @@
 //Global Variables and Objects
-Ball myBall;
+Ball myBall, movedBall;
 Ball[] fireworks = new Ball[25];
-Ball movedBall;
+Paddle myPaddle, yourPaddle;
 //
 color pongTableColour = 255; //ERROR: move to Table CLASS, 255 is full BLUE
 float gravity=0.5;
@@ -17,6 +17,8 @@ void setup() {
     fireworks[i] = new Ball(width*-1, height*-1, 0.5);
   }
   movedBall = new Ball(width*-1, height*-1, myBall.diameter, myBall.colour, myBall.xSpeed, myBall.ySpeed, myBall.xSpeedChange, myBall.ySpeedChange);
+  myPaddle = new Paddle( 0, myBall.diameter );
+  yourPaddle = new Paddle( width, myBall.diameter );
   //
 } //End setup
 //
