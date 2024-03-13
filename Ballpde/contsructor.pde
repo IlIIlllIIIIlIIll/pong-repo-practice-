@@ -25,6 +25,18 @@ void setup() {
 void draw() {
   background(pongTableColour); //ERROR: Night Mode is know in CLASS, not DRIVER
   //
+  //Paddles drawn before the ball
+  myPaddle.draw();
+  yourPaddle.draw();
+  //
+  //Update the Paddle Position for the Ball, before drawing the Ball
+  //This update does not need to run in draw(), only at end of setup()
+  //Note: pick a paddle that will always be instantiated here
+  //Note: easier to iterate through an array here than somewhere else
+  // float paddleWidthParameter, float myPaddleHeightParameter, float yourPaddleHeightParameter
+  myBall.tableYUpdate(myPaddle.tableX, myPaddle.tableY, myPaddle.tableWidth, myPaddle.tableHeight, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddleWidth, myPaddle.paddleHeight, yourPaddle.paddleHeight);
+  //movedBall.tableYUpdate(myPaddle.tableY, myPaddle.tableHeight, myPaddle.tableWidth, myPaddle.tableX, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddleWidth, myPaddle.paddleHeight, yourPaddle.paddleHeight);
+  //
   if ( myBall.disappear == true ) {
     //EMPTY IF
     //myBall.step(); //Keeps active the variables but not .draw
@@ -51,8 +63,14 @@ void draw() {
 } //End draw
 //
 void keyPressed() {
+  myPaddle.keyPressedWASD();
+  yourPaddle.keyPressedARROW();
 } //End keyPressed
 //
+void keyReleased() {
+  myPaddle.keyReleasedWASD();
+  yourPaddle.keyReleasedARROW();
+}
 void mousePressed() {
   //
 
