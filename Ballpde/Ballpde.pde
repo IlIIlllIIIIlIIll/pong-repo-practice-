@@ -9,7 +9,7 @@ class Ball
   float xSpeed, ySpeed, xSpeedChange=1.0, ySpeedChange=1.0;
   float gravity=0.0;
   Boolean disappear=false, netExplosion=false;
-  float tableY, tableWidth, tableHeight, paddleX, paddleY, paddleWidth, paddleHeight;
+  float tableY, tabledisplayWidth, tabledisplayHeight, paddleX, paddleY, paddledisplayWidth, paddledisplayHeight;
   //static int count = 25; //Static Number for Amount of Ball Instances in a Firework
   //
   //Overloading Constructors or Mulitple Constructors
@@ -17,9 +17,9 @@ class Ball
   Ball () {
     //Constructor Is ... hard coded, single variable object
     //Local Variables, deleted at end of Constructor
-    int startX = width*1/2;
-    int startY = height*1/2;
-    int referentMeasure = ( width < height ) ? width : height ; //Review Ternary Operator
+    int startX = displayWidth*1/2;
+    int startY = displayHeight*1/2;
+    int referentMeasure = ( displayWidth < displayHeight ) ? displayWidth : displayHeight ; //Review Ternary Operator
     //
     //Object Variables
     this.x = startX; //spawn myBall in the middle of the display
@@ -39,7 +39,7 @@ class Ball
     this.x = xParameter; //ERROR: trigger when the Ball enters goal area
     this.y = yParameter; //ERROR: trigger when the Ball enters goal area
     this.colour = color ( random(0, 255), random(255), random(255) ) ; //random(), random()-shortcut, casting from float to intin color var
-    this.diameter = random(width*1/25); //returns unseen diamters
+    this.diameter = random(displayWidth*1/25); //returns unseen diamters
     this.xSpeed = random(-5, 5); //Can return 0
     this.ySpeed = random(-5, 5); //Can return 0
     gravity = gravityParameter;
@@ -86,13 +86,13 @@ class Ball
     y += ySpeed * ySpeedChange;
   } //End step
   void bounce() {
-    if ( x < tableWidth*1/2 ) {
-      if ( x < paddleX+paddleWidth+(diameter*1/2) ) xSpeed *= -1;
+    if ( x < tabledisplayWidth*1/2 ) {
+      if ( x < paddleX+paddledisplayWidth+(diameter*1/2) ) xSpeed *= -1;
     } else {
       if ( x > paddleX-(diameter*1/2) ) xSpeed *= -1;
     }
     
-    if ( y < tableY+(diameter*1/2) || y > tableY+tableHeight-(diameter*1/2) ) ySpeed *= -1;
+    if ( y < tableY+(diameter*1/2) || y > tableY+tabledisplayHeight-(diameter*1/2) ) ySpeed *= -1;
   } //End bounce
   void goalExplosion(float xParameter, float yParamter, float gravityParameter) {
     for (int i=0; i < fireworks.length; i++) {
@@ -101,13 +101,13 @@ class Ball
   } //End goal
   //
   //Getters and Setter
-  void tableYUpdate( float tableXParameter, float tableYParameter, float tableWidthParameter, float tableHeightParameter, float myPaddleXParameter, float yourPaddleXParameter, float myPaddleYParameter, float yourPaddleYParameter, float paddleWidthParameter, float myPaddleHeightParameter, float yourPaddleHeightParameter ) {
+  void tableYUpdate( float tableXParameter, float tableYParameter, float tabledisplayWidthParameter, float tabledisplayHeightParameter, float myPaddleXParameter, float yourPaddleXParameter, float myPaddleYParameter, float yourPaddleYParameter, float paddledisplayWidthParameter, float myPaddledisplayHeightParameter, float yourPaddledisplayHeightParameter ) {
     tableY = tableYParameter;
-    tableHeight = tableHeightParameter;
-    tableWidth = tableXParameter + tableWidthParameter;
-    paddleX = ( x < tableWidth*1/2 ) ? myPaddleXParameter : yourPaddleXParameter;
-    paddleY = ( x < tableWidth*1/2 ) ? myPaddleYParameter : yourPaddleYParameter;
-    paddleWidth = paddleWidthParameter;
-    paddleHeight = ( x < tableWidth*1/2 ) ? myPaddleHeightParameter : yourPaddleHeightParameter;
+    tabledisplayHeight = tabledisplayHeightParameter;
+    tabledisplayWidth = tableXParameter + tabledisplayWidthParameter;
+    paddleX = ( x < tabledisplayWidth*1/2 ) ? myPaddleXParameter : yourPaddleXParameter;
+    paddleY = ( x < tabledisplayWidth*1/2 ) ? myPaddleYParameter : yourPaddleYParameter;
+    paddledisplayWidth = paddledisplayWidthParameter;
+    paddledisplayHeight = ( x < tabledisplayWidth*1/2 ) ? myPaddledisplayHeightParameter : yourPaddledisplayHeightParameter;
   }
 } //End Ball

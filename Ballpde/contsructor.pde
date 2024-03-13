@@ -7,18 +7,18 @@ color pongTableColour = 255; //ERROR: move to Table CLASS, 255 is full BLUE
 float gravity=0.5;
 //
 void setup() {
-  size(600, 400); //fullScreen(); displayWidth, displayHeight
+  fullScreen();
   /*ScreenSizeChecker() for Landscape, Protrait, Square views
    Updated Automatically for screen rotation on Android
    */
   //Population
   myBall = new Ball(); // Both 1/2's of Constructor
   for (int i=0; i < fireworks.length; i++) {
-    fireworks[i] = new Ball(width*-1, height*-1, 0.5);
+    fireworks[i] = new Ball(displayWidth*-1, displayHeight*-1, 0.5);
   }
-  movedBall = new Ball(width*-1, height*-1, myBall.diameter, myBall.colour, myBall.xSpeed, myBall.ySpeed, myBall.xSpeedChange, myBall.ySpeedChange);
+  movedBall = new Ball(displayWidth*-1, displayHeight*-1, myBall.diameter, myBall.colour, myBall.xSpeed, myBall.ySpeed, myBall.xSpeedChange, myBall.ySpeedChange);
   myPaddle = new Paddle( 0, myBall.diameter );
-  yourPaddle = new Paddle( width, myBall.diameter );
+  yourPaddle = new Paddle( displayWidth, myBall.diameter );
   //
 } //End setup
 //
@@ -33,9 +33,9 @@ void draw() {
   //This update does not need to run in draw(), only at end of setup()
   //Note: pick a paddle that will always be instantiated here
   //Note: easier to iterate through an array here than somewhere else
-  // float paddleWidthParameter, float myPaddleHeightParameter, float yourPaddleHeightParameter
-  myBall.tableYUpdate(myPaddle.tableX, myPaddle.tableY, myPaddle.tableWidth, myPaddle.tableHeight, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddleWidth, myPaddle.paddleHeight, yourPaddle.paddleHeight);
-  //movedBall.tableYUpdate(myPaddle.tableY, myPaddle.tableHeight, myPaddle.tableWidth, myPaddle.tableX, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddleWidth, myPaddle.paddleHeight, yourPaddle.paddleHeight);
+  // float paddledisplayWidthParameter, float myPaddledisplayHeightParameter, float yourPaddledisplayHeightParameter
+  myBall.tableYUpdate(myPaddle.tableX, myPaddle.tableY, myPaddle.tabledisplayWidth, myPaddle.tabledisplayHeight, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddledisplayWidth, myPaddle.paddledisplayHeight, yourPaddle.paddledisplayHeight);
+  //movedBall.tableYUpdate(myPaddle.tableY, myPaddle.tabledisplayHeight, myPaddle.tabledisplayWidth, myPaddle.tableX, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddledisplayWidth, myPaddle.paddledisplayHeight, yourPaddle.paddledisplayHeight);
   //
   if ( myBall.disappear == true ) {
     //EMPTY IF
@@ -51,10 +51,10 @@ void draw() {
   }
   // Trigger: Left Goal, Right Goal
   // ERROR: Ball Instance still bounces
-  if ( myBall.x<(2*myBall.diameter) || myBall.x>( width - (2*myBall.diameter) ) ) myBall.goalExplosion(myBall.x, myBall.y, gravity);
+  if ( myBall.x<(2*myBall.diameter) || myBall.x>( displayWidth - (2*myBall.diameter) ) ) myBall.goalExplosion(myBall.x, myBall.y, gravity);
   //
   //Turned off for first ball to wrok
-  //if ( movedBall.x<(2*movedBall.diameter) || movedBall.x>( width - (2*movedBall.diameter) ) ) movedBall.goalExplosion(movedBall.x, movedBall.y, gravity);
+  //if ( movedBall.x<(2*movedBall.diameter) || movedBall.x>( displayWidth - (2*movedBall.diameter) ) ) movedBall.goalExplosion(movedBall.x, movedBall.y, gravity);
   //
   //Does "infront of ball" make a difference
   for (int i=0; i < fireworks.length; i++) {
@@ -63,13 +63,13 @@ void draw() {
 } //End draw
 //
 void keyPressed() {
-  myPaddle.keyPressedWASD();
-  yourPaddle.keyPressedARROW();
+  myPaddle.keyPressedWS();
+  yourPaddle.keyPressedWS();
 } //End keyPressed
 //
 void keyReleased() {
-  myPaddle.keyReleasedWASD();
-  yourPaddle.keyReleasedARROW();
+  myPaddle.keyPressedWS();
+  yourPaddle.keyReleasedOL();
 }
 void mousePressed() {
   //
