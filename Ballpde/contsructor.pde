@@ -1,83 +1,74 @@
-//Global Variables and Objects
-Ball myBall, movedBall;
-Ball[] fireworks = new Ball[25];
-Paddle myPaddle, yourPaddle;
-//
-color pongTableColour = 255; //ERROR: move to Table CLASS, 255 is full BLUE
-float gravity=0.5;
+//Global Variables and objects
+Ball firstBall; //Both halfs of Constructor
+Ball cheatBall;//appears when clicked
+Ball[] firework = new Ball[10];//generates multiple balls that fall with gravity
+Paddle firstPaddle, secondPaddle;
+color backgroundColor;
+color pongTableColor = 255;
 //
 void setup() {
-  fullScreen();
-  /*ScreenSizeChecker() for Landscape, Protrait, Square views
-   Updated Automatically for screen rotation on Android
-   */
-  //Population
-  myBall = new Ball(); // Both 1/2's of Constructor
-  for (int i=0; i < fireworks.length; i++) {
-    fireworks[i] = new Ball(displayWidth*-1, displayHeight*-1, 0.5);
-  }
-  movedBall = new Ball(displayWidth*-1, displayHeight*-1, myBall.diameter, myBall.colour, myBall.xSpeed, myBall.ySpeed, myBall.xSpeedChange, myBall.ySpeedChange);
-  myPaddle = new Paddle( 0, myBall.diameter );
-  yourPaddle = new Paddle( displayWidth, myBall.diameter );
-  //
-} //End setup
+  size( 700, 400 );//width and height of canvas //fullscreen(); = size(displayWidth, displayHeight);
+  /*ScreenSizeChecker(); //for landscape, portrait or square veiw 
+  Automatically adjusts for screen rotaction or change*/
+  firstBall = new Ball();
+  cheatBall = new Ball(width*-1, height*-1, firstBall.ballDiameter, firstBall.ballColor, firstBall.xVelocity, firstBall.yVelocity);
+  for (int i=0; i < firework.length; i++) firework[i] = new Ball(width*-1, height*-1, (1/2));//populating firework
+  firstPaddle = new Paddle( 0, firstBall.ballDiameter );
+  secondPaddle = new Paddle( width, firstBall.ballDiameter );
+  firstBall.disappear = false;
+  backgroundColor = color(int(random(0, 255)), int(random(0,255)), int(random(0,255)));
+}//end setup
 //
 void draw() {
-  background(pongTableColour); //ERROR: Night Mode is know in CLASS, not DRIVER
-  //
-  //Paddles drawn before the ball
-  myPaddle.draw();
-  yourPaddle.draw();
-  //
-  //Update the Paddle Position for the Ball, before drawing the Ball
-  //This update does not need to run in draw(), only at end of setup()
-  //Note: pick a paddle that will always be instantiated here
-  //Note: easier to iterate through an array here than somewhere else
-  // float paddledisplayWidthParameter, float myPaddledisplayHeightParameter, float yourPaddledisplayHeightParameter
-  myBall.tableYUpdate(myPaddle.tableX, myPaddle.tableY, myPaddle.tabledisplayWidth, myPaddle.tabledisplayHeight, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddledisplayWidth, myPaddle.paddledisplayHeight, yourPaddle.paddledisplayHeight);
-  //movedBall.tableYUpdate(myPaddle.tableY, myPaddle.tabledisplayHeight, myPaddle.tabledisplayWidth, myPaddle.tableX, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddledisplayWidth, myPaddle.paddledisplayHeight, yourPaddle.paddledisplayHeight);
-  //
-  if ( myBall.disappear == true ) {
-    //EMPTY IF
-    //myBall.step(); //Keeps active the variables but not .draw
-  } else {
-    myBall.draw();
-  }
-  if ( movedBall.disappear == true ) {
-    //EMPTY IF
-    //myBall.step(); //Keeps active the variables but not .draw
-  } else {
-    movedBall.draw();
-  }
-  // Trigger: Left Goal, Right Goal
-  // ERROR: Ball Instance still bounces
-  if ( myBall.x<(2*myBall.diameter) || myBall.x>( displayWidth - (2*myBall.diameter) ) ) myBall.goalExplosion(myBall.x, myBall.y, gravity);
-  //
-  //Turned off for first ball to wrok
-  //if ( movedBall.x<(2*movedBall.diameter) || movedBall.x>( displayWidth - (2*movedBall.diameter) ) ) movedBall.goalExplosion(movedBall.x, movedBall.y, gravity);
-  //
-  //Does "infront of ball" make a difference
-  for (int i=0; i < fireworks.length; i++) {
-    fireworks[i].draw(); //
-  }
-} //End draw
+  background(backgroundColor);
+  firstPaddle.drawPaddle();
+  secondPaddle.drawPaddle();
+  firstPaddle.paddleMove();
+  secondPaddle.paddleMove();
+  for (int i=0; i < firework.length; i++) firework[i].ballDraw(); //drawing multiple balls
+  explosions();
+  if (firstBall.disappear) {/*empty if*/} else firstBall.ballDraw();
+  if (cheatBall.disappear) {/*empty if*/} else cheatBall.ballDraw();
+  //float playAreaYLocal, float playAreaHeightLocal, float playAreaWidthLocal, float playAreaXLocal, float paddleXLocal, float paddleYLocal, float paddleWidthLocal, float paddleHeightLocal
+  firstBall.collisionsUpdate(firstPaddle.playAreaY, firstPaddle.playAreaHeight, firstPaddle.playAreaWidth, firstPaddle.playAreaX, firstPaddle.paddleX, firstPaddle.paddleY, firstPaddle.paddleWidth, firstPaddle.paddleHeight, firstPaddle.paddleWidth, secondPaddle.paddleWidth, firstPaddle.paddleHeight, secondPaddle.paddleHeight);
+}//end draw
 //
 void keyPressed() {
-  myPaddle.keyPressedWS();
-  yourPaddle.keyPressedWS();
-} //End keyPressed
-//
+  if (key == '1') firstBall.disappear = true;
+  if (key == '2') cheatBall.disappear = true;
+  firstPaddle.paddleKeyPressedWASD();
+  secondPaddle.paddleKeyPressedARROWKEYS();
+}//end keyPressed
 void keyReleased() {
-  myPaddle.keyPressedWS();
-  yourPaddle.keyReleasedOL();
+  firstPaddle.paddleKeyReleasedWSAD();
+  secondPaddle.paddleKeyReleasedARROWKEYS();
 }
-void mousePressed() {
-  //
-
-  movedBall = new Ball(mouseX, mouseY, myBall.diameter, myBall.colour, myBall.xSpeed, myBall.ySpeed, myBall.xSpeedChange, myBall.ySpeedChange);
-  //CAUTION: only brings forth myBall, not last known movedBall
-  //Note: .draw is not being executed so
-  //myBall.disappear = true;
-} //End mousePressed
 //
-//End DRIVER
+void mousePressed() {
+  for (int i=0; i < firework.length; i++) firework[i] = new Ball(int(mouseX), int(mouseY), 0.5);//populating firework
+  cheatBall = new Ball(mouseX, mouseY, firstBall.ballDiameter, firstBall.ballColor, firstBall.xVelocity, firstBall.yVelocity);//initiates after mousePressed
+}//end mousepressed
+//
+void explosions() { //firework effect when goal region hit
+  if (mousePressed) cheatBall.disappear  = false;
+  if (firstBall.ballX <= (firstBall.ballDiameter/2) || firstBall.ballX >= (width)-(firstBall.ballDiameter/2)) {
+    for (int i=0; i < firework.length; i++) 
+    firework[i] = new Ball(firstBall.ballX, firstBall.ballY, 0.5); //drawing multiple balls
+  }
+  if (!cheatBall.disappear) {
+    if (cheatBall.ballX <= (cheatBall.ballDiameter/2) || cheatBall.ballX >= (width)-(cheatBall.ballDiameter/2)) {
+      for (int i=0; i < firework.length; i++) 
+      firework[i] = new Ball(cheatBall.ballX, cheatBall.ballY, 0.5); //drawing multiple balls
+    }
+  }
+}//end explosions
+//
+void ballCollisions() {
+  /*
+  if (ballX < (ballDiameter/2) || ballX > (width)-(ballDiameter/2)) ballColor = color(int(random(0, 255)), int(random(0,255)), int(random(0,255)));
+  if (ballY < (ballDiameter/2) || ballY > (height)-(ballDiameter/2)) ballColor = color(int(random(0, 255)), int(random(0,255)), int(random(0,255)));
+  if (ballX < (ballDiameter/2) || ballX > (width)-(ballDiameter/2)) (xVelocity) *= -1;
+  if (ballY < (ballDiameter/2) || ballY > (height)-(ballDiameter/2)) (yVelocity) *= -1;
+  */
+}//end ballCollisions
+//end ClassMetaphors

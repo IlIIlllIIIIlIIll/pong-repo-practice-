@@ -1,76 +1,64 @@
-/* Known ERRORs
- - TBA
- */
-class Paddle {
-  //
+/* known ERRORs
+ - To be implemented
+*/
+ class Paddle {
   //Global Variables
-  float tableX, tableY, tabledisplayWidth, tabledisplayHeight;
-  float netX, netY, netdisplayWidth, netdisplayHeight;
-  float paddleX, paddleY, paddledisplayWidth, paddledisplayHeight, paddleStartdisplayHeight, paddleTravelDistance;
-  color paddleColour;
-  Boolean up=false, down=false;
+  float playAreaWidth, playAreaHeight, playAreaX, playAreaY;
+  float knotX, knotY, knotWidth, knotHeight;
+  float paddleX, paddleY, paddleWidth, paddleHeight, paddleStartHeight;
+  float paddleTravel;
+  boolean paddleUp = false, paddleDown = false;//keyPressed in draw
+  color paddleColor;
   //
-  //Overloaded Constructor
-  //Purpose: left and right paddles
-  Paddle ( float paddleStartParameter, float ballDiameterParameter ) {
-    netdisplayWidth = ballDiameterParameter * 3;
-    paddledisplayWidth = ballDiameterParameter * 1/2; //Ball Radius
-    tableY = displayHeight * 1/10;
-    tabledisplayHeight = displayHeight * 8/10;
-    //CAUTION: netX will have the same value
-    if ( paddleStartParameter == 0 ) netX = paddleStartParameter; //Adding to the netX
-    if ( paddleStartParameter == displayWidth ) {
-      netX = paddleStartParameter - netdisplayWidth *2 - paddledisplayWidth; //Subtracting the netX
-    }
-    this.paddleX = netX + netdisplayWidth; //CAUTION: netX has two values, ERROR
-    if ( paddleStartParameter == displayWidth ) netX = paddleStartParameter - netdisplayWidth;
-    this.paddleStartdisplayHeight = 0.25; //if Easter Egg number must be tracked
-    this.paddledisplayHeight = tabledisplayHeight * paddleStartdisplayHeight;
-    this.paddleY = tableY + ( tabledisplayHeight * 1/2 ) - ( paddledisplayHeight *1/2 );
-    paddleColour = 0; //Grey Scale, not RGB, color ( int(random()), int(random()), int(random()) )
-    this.paddleTravelDistance = 1; //Easter Egg: paddle speed is 1 pixel
-  } //End Paddle Constructor
+  Paddle(float startPositionParameter, float ballDiameterParameter) {
+    knotWidth = (ballDiameterParameter*3);
+    paddleWidth = (ballDiameterParameter/2); //Ball Radius
+    playAreaY = height/10;//smallest Y value for paddle movement
+    playAreaHeight = (height*4)/5;
+    if ( startPositionParameter == 0 ) knotX = startPositionParameter; //Adding to the knotX
+    if ( startPositionParameter == width ) knotX = startPositionParameter - (knotWidth*2) - paddleWidth; //Subtracting the knotX
+    this.paddleX = knotX + knotWidth; //netX has two values, fix ERROR
+    if ( startPositionParameter == width ) knotX = startPositionParameter - knotWidth;
+    this.paddleStartHeight = ( 0.25 );//has to be decimal
+    this.paddleHeight = (playAreaHeight * paddleStartHeight);
+    this.paddleY = playAreaY + (playAreaHeight/2) - (paddleHeight/2);
+    this.paddleTravel = (playAreaHeight/50);//paddle speed
+    this.paddleColor = color (int(random(0,255)), int(random(0,255)), int(random(0,255)));
+  }//end paddle(float, float)
   //
-  void draw() {
-    fill(paddleColour);
-    paddles();
-    fill(0); //Reset Defaults
-    //
-    //Arithmetic for Paddles
-    if ( up == true ) movePaddleUp();
-    if ( down == true ) movePaddleDown();
-  } //End draw
-  //
-  //VOIDS and Returns
-  //Draw Paddles
-  void paddles() {
-    rect(paddleX, paddleY, paddledisplayWidth, paddledisplayHeight);
-  } //End Paddles
-  void movePaddleDown() {
-    paddleY += paddleTravelDistance;
-    if ( paddleY > tableY+tabledisplayHeight-paddledisplayHeight ) paddleY = tableY+tabledisplayHeight-paddledisplayHeight; //ERROR Catch
-    //down = false; //ERROR: boolean reset means one paddle at a time, no gamie
-  } //End Move Paddles
-  void movePaddleUp() {
-    paddleY -= paddleTravelDistance;
-    if ( paddleY < tableY ) paddleY = tableY; //ERROR Catch
-    //up = false; //ERROR: boolean reset means one paddle at a time, no gamie
-  } //End Move Paddles
-  //
-  void keyPressedWS() {
-    if ( key=='W' | key=='w' ) up=true ;
-    if ( key=='S' | key=='s' ) down=true;
+  void drawPaddle() {
+    fill(paddleColor);
+    noStroke();
+    rect(paddleX, paddleY, paddleWidth, paddleHeight);
+    fill(0);
+  }//end drawPaddle
+  void paddleMove() {
+    if (paddleUp) paddleUp();
+    if (paddleDown) paddleDown();
   }
-  void keyPressedOL() {
-    if ( key==CODED & keyCode==UP ) up=true;
-    if ( key==CODED & keyCode==DOWN ) down=true;
+  void paddleUp() {
+    paddleY -= (paddleTravel);//moving up
+    if (paddleY < playAreaY) paddleY = playAreaY;//error catch: will not go off screen
+  }//paddleUp
+  void paddleDown() {
+    paddleY += (paddleTravel);//moving down
+    if (paddleY > playAreaY+playAreaHeight-paddleHeight) paddleY = playAreaY+playAreaHeight-paddleHeight;//error catch: will not go off screen
+  }//end paddleDown
+  void paddleKeyPressedWASD() {
+    if (key == 'w' || key == 'W') firstPaddle.paddleUp = true;
+    if (key == 's' || key == 'S') firstPaddle.paddleDown = true; 
   }
-  void keyReleasedWS() {
-    if ( key=='W' | key=='w' ) up=false ;
-    if ( key=='S' | key=='s' ) down=false;
+  void paddleKeyPressedARROWKEYS() {
+    if (key == CODED & keyCode == UP) secondPaddle.paddleUp = true;
+    if (key == CODED & keyCode == DOWN) secondPaddle.paddleDown = true;
   }
-  void keyReleasedOL() {
-    if ( key==CODED & keyCode==UP ) up=false;
-    if ( key==CODED & keyCode==DOWN ) down=false;
+  void paddleKeyReleasedWSAD() {
+    if (key == 'w' || key == 'W') firstPaddle.paddleUp = false;
+    if (key == 's' || key == 'S') firstPaddle.paddleDown = false; 
   }
-} //End Paddle
+  void paddleKeyReleasedARROWKEYS() {
+    if (key == CODED & keyCode == UP) secondPaddle.paddleUp = false;
+    if (key == CODED & keyCode == DOWN) secondPaddle.paddleDown = false;
+  }
+}//end Paddle
+//end pongPaddle
