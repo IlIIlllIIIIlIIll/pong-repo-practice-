@@ -11,7 +11,6 @@ class Ball {
   boolean disappear = true;
   boolean inRange;
   color ballColor;
-  float white = #ffffff;
   //Ball Constructor
   Ball() {
     //code for all balls
@@ -42,9 +41,9 @@ class Ball {
     //triggers when ball enters goal region
     this.ballX = ballXLocal;
     this.ballY = ballYLocal;
-    this.ballColor = color(white); //RGB color
+    this.ballColor = color(int(random(0, 255)), int(random(0,255)), int(random(0,255))); //RGB color
     this.ballDiameter = random(firstBall.ballDiameter/1.1);
-    this.xVelocity = random(-5, 5);
+    this.xVelocity = random(-10, 10);
     this.yVelocity = random(-5, 5);
     gravity = gravityLocal;
   }//end Firework Constructor
@@ -103,19 +102,17 @@ class Ball {
     if (antiBall.inRange) { antiBall.collisionsPaddle(); } else {}
   }//collisionsUpdate
   void collisionsPaddle() {
-    if (ballY <= firstPaddle.paddleY + firstPaddle.paddleHeight && ballY >= firstPaddle.paddleY){
-      if (ballX <= (firstPaddle.paddleX)+((secondPaddle.paddleWidth)*2)) {
-        xVelocity *= -1;
-        firstPaddle.paddleColor = color(int(random(0, 255)), int(random(0,255)), int(random(0,255)));
-      }
+    if (ballX >= firstPaddle.paddleX && ballX < firstPaddle.paddleX+firstPaddle.paddleWidth && ballY >= firstPaddle.paddleY && ballY <= firstPaddle.paddleY+firstPaddle.paddleHeight) {
+      firstPaddle.paddleColor = color(int(random(0, 255)), int(random(0,255)), int(random(0,255)));
+      ballX = firstPaddle.paddleX + firstPaddle.paddleWidth;
+      xVelocity *= -1;
     }
-    if (ballY <= secondPaddle.paddleY + secondPaddle.paddleHeight && ballY >= secondPaddle.paddleY){
-      if (ballX >= (secondPaddle.paddleX)-(secondPaddle.paddleWidth)) {
-        xVelocity *= -1;
-        secondPaddle.paddleColor = color(int(random(0, 255)), int(random(0,255)), int(random(0,255)));
-      }
+    if (ballX+ballDiameter/2 >= secondPaddle.paddleX && ballX <= secondPaddle.paddleX+secondPaddle.paddleWidth && ballY+ballDiameter >= secondPaddle.paddleY && ballY <= secondPaddle.paddleY+secondPaddle.paddleHeight) {
+      secondPaddle.paddleColor = color(int(random(0, 255)), int(random(0,255)), int(random(0,255)));
+      ballX = secondPaddle.paddleX - secondPaddle.paddleWidth;
+      xVelocity *= -1;
     }
-  }//end collisonDebug
+  }//end collisonPaddle
   void inRange() {
     if (ballX >= firstPaddle.paddleX-firstPaddle.paddleWidth && ballX <= secondPaddle.paddleX) {
       this.inRange = true;
