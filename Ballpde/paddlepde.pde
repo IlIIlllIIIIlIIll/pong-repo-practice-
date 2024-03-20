@@ -9,10 +9,11 @@
   float paddleTravel;
   boolean paddleUp = false, paddleDown = false;//keyPressed in draw
   color paddleColor;
+  color playAreaColor = color (int(random(0,255)), int(random(0,255)), int(random(0,255)));
   //
   Paddle(float startPositionParameter, float ballDiameterParameter) {
     knotWidth = (ballDiameterParameter*3);
-    paddleWidth = (ballDiameterParameter/2); //Ball Radius
+    this.paddleWidth = (ballDiameterParameter/2); //Ball Radius
     playAreaY = height/10;//smallest Y value for paddle movement
     playAreaHeight = (height*4)/5;
     if ( startPositionParameter == 0 ) knotX = startPositionParameter; //Adding to the knotX
@@ -26,6 +27,20 @@
     this.paddleColor = color (int(random(0,255)), int(random(0,255)), int(random(0,255)));
   }//end paddle(float, float)
   //
+  Paddle() {
+    drawPlayAreaPolulation();
+  }//end paddle()
+  void drawPlayAreaPolulation() {
+    playAreaX = 0;
+    playAreaY = height/10;
+    playAreaWidth = (width)-1;
+    playAreaHeight = (height * 4)/5;
+  }//end drawPlayAreaPolulation
+  void drawPlayArea() {
+    fill(playAreaColor);
+    noStroke();
+    rect(playAreaX, playAreaY, playAreaWidth, playAreaHeight);
+  }//end drawPlayArea
   void drawPaddle() {
     fill(paddleColor);
     noStroke();
@@ -61,4 +76,4 @@
     if (key == CODED & keyCode == DOWN) secondPaddle.paddleDown = false;
   }
 }//end Paddle
-//end pongPaddle
+//end pongPaddleswswswwsws
